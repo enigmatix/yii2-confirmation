@@ -1,8 +1,8 @@
 Change Control Behavior
 =======================
-Protects a variable or multiple variables in a model from being changed by sending a secondary confirmation
+This behavior protects variable(s) in a model from being changed by sending a confirmation request
 via email.  This is ideally used for secure information, such as email addresses connected to user accounts, where you
-want to ensure the user has access to the new value.
+want to ensure the user has access to the new email address before commiting the change.
 
 Once a user attempts to change an email, the request and the object are stored, and the release token is sent either to
 the new email address, or if another attribute is changed, to the current email address of the user.
@@ -53,14 +53,18 @@ Class User extends ActiveRecord {
         return [
         ...
             [
-                'class'                 => confirmationBehavior::className(),
+                'class'                 => ConfirmationBehavior::className(),
                 'protectedAttributes'   => ['email'], //your attribute name here
+              //'allow'                 => ['roleA', ['roleB']
 
             ],
         ];
     }
 }
 ```
+
+The 'allow' node is optional, and only required if you want certain roles to be
+excluded from generating a confirmation.  Often useful for admin or other privileged users.
 
 3. Add the controller to your frontend or app config/main.php
 

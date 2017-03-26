@@ -60,6 +60,12 @@ class ConfirmationBehavior extends Behavior
      */
     public $secondFactor = 'email';
 
+
+    /**
+     * @var string the name of the variable to use to traverse to the user table from the secured model.
+     */
+    public $createdByAttribute = 'createdBy';
+
     /**
      * @var string
      */
@@ -275,7 +281,7 @@ class ConfirmationBehavior extends Behavior
             $email = ArrayHelper::getValue($object,'email_address');
 
         if($email == null)
-            $email = ArrayHelper::getValue($object,'createdBy.email');
+            $email = ArrayHelper::getValue($object,$this->createdByAttribute.'.email');
 
         if($email == null)
             throw new InvalidCallException("Unable to locate email address via record, changed values, or user account");
