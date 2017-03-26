@@ -1,4 +1,4 @@
-Change Control Behavior
+Confirmation Behavior
 =======================
 This behavior protects variable(s) in a model from being changed by sending a confirmation request
 via email.  This is ideally used for secure information, such as email addresses connected to user accounts, where you
