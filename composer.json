@@ -1,0 +1,21 @@
+{
+    "name": "enigmatix/yii2-confirmation",
+    "description": "Allows the caching of a value and storing in a table to be approved at a later date",
+    "type": "yii2-extension",
+    "keywords": ["yii2","extension"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Joel Small",
+            "email": "joel.small@biscon.com.au"
+        }
+    ],
+    "require": {
+        "yiisoft/yii2": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "enigmatix\\confirmation\\": ""
+        }
+    }
+}
