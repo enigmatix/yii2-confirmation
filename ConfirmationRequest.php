@@ -8,7 +8,6 @@ use yii\helpers\ArrayHelper;
 use yii\behaviors\TimestampBehavior;
 use Yii;
 use yii\helpers\Url;
-use common\models\User;
 
 
 /**
@@ -21,8 +20,6 @@ class ConfirmationRequest extends \yii\db\ActiveRecord
     protected $delivery = 'display';
 
     protected $secondFactor = 'email';
-
-    public $view;
 
     /**
      * @inheritdoc
@@ -42,8 +39,8 @@ class ConfirmationRequest extends \yii\db\ActiveRecord
             [['object', 'values'], 'string'],
             [['model', 'release_token'], 'string', 'max' => 255],
             [['release_token'], 'default',  'value' => function ($model, $attribute){ return $this->generateReleaseToken();}],
-            [['created_by'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['created_by' => 'id']],
-            [['updated_by'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['updated_by' => 'id']],
+            [['created_by'], 'exist', 'skipOnError' => true, 'targetClass' => $this->getUserClassName(), 'targetAttribute' => ['created_by' => 'id']],
+            [['updated_by'], 'exist', 'skipOnError' => true, 'targetClass' => $this->getUserClassName(), 'targetAttribute' => ['updated_by' => 'id']],
         ];
     }
 
@@ -105,7 +102,7 @@ class ConfirmationRequest extends \yii\db\ActiveRecord
      */
     public function getCreatedBy()
     {
-        return $this->hasOne(User::className(), ['id' => 'created_by']);
+        return $this->hasOne($this->getUserClassName(), ['id' => 'created_by']);
     }
 
     /**
@@ -113,7 +110,11 @@ class ConfirmationRequest extends \yii\db\ActiveRecord
      */
     public function getUpdatedBy()
     {
-        return $this->hasOne(User::className(), ['id' => 'updated_by']);
+        return $this->hasOne($this->getUserClassName(), ['id' => 'updated_by']);
+    }
+
+    protected function getUserClassName(){
+        return Yii::$app->user->identityClass;
     }
 
     public function release(){

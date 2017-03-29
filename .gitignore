@@ -1,2 +1,4 @@
-codeception.yml
-test-local.php
+/codeception.yml
+/test-local.php
+/vendor/
+/composer.lock

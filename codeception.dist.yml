@@ -15,7 +15,7 @@ extensions:
 modules:
     config:
         Yii2:
-            configFile: 'test-local.php'
+            configFile: '_test-local.php'
         Db:
             dsn: ''
             user: ''

@@ -69,7 +69,7 @@ class ConfirmationBehavior extends Behavior
     /**
      * @var string
      */
-    public $view = '@vendor/enigmatix/yii2-confirmation/_confirmationEmail';
+    public $confirmationViewPath = '@vendor/enigmatix/yii2-confirmation/mail/_confirmationEmail';
 
     /**
      * @var string The name of the table attribute that tracks when a record is updated.  This value is ignored when
@@ -245,7 +245,7 @@ class ConfirmationBehavior extends Behavior
         switch ($this->secondFactor){
             case 'email':
                 Yii::$app->mailer
-                    ->compose($this->view, ['model' => $model])
+                    ->compose($this->confirmationViewPath, ['model' => $model])
                     ->setTo([$this->getEmail($model)])
                     ->send();
                 $this->createFeedbackMessage($model);

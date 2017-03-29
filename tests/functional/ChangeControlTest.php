@@ -5,8 +5,8 @@ namespace enigmatix\confirmation\tests\functional;
 use enigmatix\confirmation\ConfirmationRequest;
 use Yii;
 use frontend\models\PasswordResetRequestForm;
-use common\fixtures\User as UserFixture;
-use common\models\User;
+use enigmatix\confirmation\tests\fixtures\User as UserFixture;
+use enigmatix\confirmation\tests\models\User;
 use yii\base\ErrorException;
 
 class confirmationTest extends \Codeception\Test\Unit
@@ -34,18 +34,24 @@ class confirmationTest extends \Codeception\Test\Unit
         ]);
     }
 
+    protected function getEmailTemplate(){
+        return '_confirmationEmail';
+    }
+
     public function testTryChange()
     {
 
-        $attribute          = 'email';
-        $userFixture        = $this->tester->grabFixture('user', 0);
-        $firstValue         = 'test@place.com';
-        $secondValue        = 'other@email.com';
+        $attribute                  = 'email';
+        $userFixture                = $this->tester->grabFixture('user', 0);
+        $firstValue                 = 'test@place.com';
+        $secondValue                = 'other@email.com';
 
-        $user               = User::findOne($userFixture['id']);
-        $user->$attribute   = $firstValue;
+        $user                       = User::findOne($userFixture['id']);
+        $user->$attribute           = $firstValue;
+        $user->confirmationViewPath = $this->getEmailTemplate();
         $user->save();
-        $request            = ConfirmationRequest::find()->one();
+
+        $request                    = ConfirmationRequest::find()->one();
 
         $user->refresh();
 

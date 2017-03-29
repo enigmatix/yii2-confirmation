@@ -60,11 +60,11 @@ class ConfirmationRequestsController extends Controller
             return $this->redirect($viewLink);
         }
 
-        return $this->renderOutput('@vendor/enigmatix/yii2-confirmation/views/confirm', []);
+        return $this->render('@vendor/enigmatix/yii2-confirmation/views/confirm', []);
     }
 
     public function actionExpired(){
-        return $this->renderOutput('@vendor/enigmatix/yii2-confirmation/views/expired', []);
+        return $this->render('@vendor/enigmatix/yii2-confirmation/views/expired', []);
 
     }
 
