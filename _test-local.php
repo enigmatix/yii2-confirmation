@@ -1,6 +1,8 @@
 <?php
 return
     [
+        'id' => 'confirmation-test',
+        'basePath' => __DIR__,
         'components' => [
             'db' => [
                 'class'     => 'yii\\db\\Connection',
@@ -16,5 +18,5 @@ return
                 'class' => 'yii\swiftmailer\Mailer',
             ],
 
-        ]
-];
+        ],
+    ];
