@@ -1,3 +1,8 @@
+[![Latest Stable Version](https://poser.pugx.org/enigmatix/yii2-confirmation/v/stable)](https://packagist.org/packages/enigmatix/yii2-confirmation)
+[![Latest Unstable Version](https://poser.pugx.org/enigmatix/yii2-confirmation/v/unstable)](https://packagist.org/packages/enigmatix/yii2-confirmation)
+[![Build Status](https://travis-ci.org/enigmatix/yii2-confirmation.svg?branch=master)](https://travis-ci.org/enigmatix/yii2-confirmation)
+[![License](https://poser.pugx.org/enigmatix/yii2-confirmation/license)](https://packagist.org/packages/enigmatix/yii2-confirmation)
+
 Confirmation Behavior
 =======================
 This behavior protects variable(s) in a model from being changed by sending a confirmation request
