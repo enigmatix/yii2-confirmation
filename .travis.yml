@@ -22,5 +22,4 @@ install:
 before_script:
   - mysql -e 'CREATE DATABASE confirmationtest;'
 script:
-  - composer validate --strict
   - vendor/bin/codecept run

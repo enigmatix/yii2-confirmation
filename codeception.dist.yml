@@ -17,8 +17,8 @@ modules:
         Yii2:
             configFile: '_test-local.php'
         Db:
-            dsn: ''
-            user: ''
+            dsn: 'mysql:host=localhost;dbname=confirmationtest'
+            user: 'root'
             password: ''
             dump: tests/_data/dump.sql
             populate: true

@@ -2,3 +2,4 @@
 /test-local.php
 /vendor/
 /composer.lock
+tests/_support/_generated/*
