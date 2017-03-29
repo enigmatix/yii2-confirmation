@@ -16,5 +16,5 @@ return
                 'class' => 'yii\swiftmailer\Mailer',
             ],
 
-        ],
-);
+        ]
+];
