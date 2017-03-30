@@ -18,6 +18,7 @@ cache:
 install:
   - travis_retry composer self-update && composer --version
   - composer global require "fxp/composer-asset-plugin:^1.2.0"
+  - rm composer.lock
   - composer install
 before_script:
   - mysql -e 'CREATE DATABASE confirmationtest;'
