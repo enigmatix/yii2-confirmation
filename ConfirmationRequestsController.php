@@ -34,36 +34,35 @@ class ConfirmationRequestsController extends Controller
 
     /**
      * Releases a single change as stored in the  ConfirmationRequest model.
-     * @param integer $id
      * @return mixed
      */
     public function actionRelease($release_token)
     {
 
-        try{
-            $model =  $this->findModel($release_token);
-        } catch (NotFoundHttpException $e){
-            Yii::$app->session->setFlash('danger' , "We were not able to find your change.  Perhaps it has already been processed?");
+        try {
+            $model = $this->findModel($release_token);
+        } catch (NotFoundHttpException $e) {
+            Yii::$app->session->setFlash('danger', "We were not able to find your change.  Perhaps it has already been processed?");
             return $this->goHome();
         }
 
-        try{
+        try {
             $model->release();
-        } catch (ErrorException $e){
+        } catch (ErrorException $e) {
             return $this->redirect(['confirmation-requests/expired']);
         }
 
         $viewLink = $model->constructObject()->getViewLink();
         $model->delete();
 
-        if(!Yii::$app->user->isGuest){
+        if (!Yii::$app->user->isGuest) {
             return $this->redirect($viewLink);
         }
 
         return $this->render('@vendor/enigmatix/yii2-confirmation/views/confirm', []);
     }
 
-    public function actionExpired(){
+    public function actionExpired() {
         return $this->render('@vendor/enigmatix/yii2-confirmation/views/expired', []);
 
     }
@@ -71,7 +70,6 @@ class ConfirmationRequestsController extends Controller
     /**
      * Finds the ConfirmationRequest model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param integer $id
      * @return ConfirmationRequest the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
