@@ -1,6 +1,7 @@
 [![Latest Stable Version](https://poser.pugx.org/enigmatix/yii2-confirmation/v/stable)](https://packagist.org/packages/enigmatix/yii2-confirmation)
 [![Latest Unstable Version](https://poser.pugx.org/enigmatix/yii2-confirmation/v/unstable)](https://packagist.org/packages/enigmatix/yii2-confirmation)
 [![Build Status](https://travis-ci.org/enigmatix/yii2-confirmation.svg?branch=master)](https://travis-ci.org/enigmatix/yii2-confirmation)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/enigmatix/yii2-confirmation/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/enigmatix/yii2-confirmation/?branch=master)
 [![License](https://poser.pugx.org/enigmatix/yii2-confirmation/license)](https://packagist.org/packages/enigmatix/yii2-confirmation)
 
 Confirmation Behavior

@@ -11,8 +11,21 @@ use yii\helpers\Url;
 
 
 /**
- * This is the custom logic model class for table "{{%confirmation_requests}}".
- * @inheritdoc
+ * This is the model class for table "{{%confirmation_request}}".
+ *
+ * @property integer $id
+ * @property string $model
+ * @property integer $object_id
+ * @property string $object
+ * @property string $release_token
+ * @property integer $created_at
+ * @property integer $updated_at
+ * @property string $values
+ * @property integer $created_by
+ * @property integer $updated_by
+ *
+ * @property User $createdBy
+ * @property User $updatedBy
  */
 class ConfirmationRequest extends \yii\db\ActiveRecord
 {
@@ -113,6 +126,9 @@ class ConfirmationRequest extends \yii\db\ActiveRecord
         return $this->hasOne($this->getUserClassName(), ['id' => 'updated_by']);
     }
 
+    /**
+     * @return string ActiveRecord user class, as per application implementation
+     */
     protected function getUserClassName(){
         return Yii::$app->user->identityClass;
     }
@@ -126,9 +142,11 @@ class ConfirmationRequest extends \yii\db\ActiveRecord
 
         foreach ($changedValues as $field => $value){
             $oldValue = $model->oldAttributes[$field];
-            if($current->$field !== $oldValue && $current->$field !== $value)
-                throw new ErrorException("Unable to release change, protected field $field has been updated since this request."
-                . " Expected to find $value or $oldValue, found " . $current->$field);
+            if($current->$field !== $oldValue && $current->$field !== $value){
+                throw new ErrorException(
+                    sprintf('Unable to release change, protected field %s has been updated since this request.'
+                    . ' Expected to find %s or %s, found %s', $field, $value, $oldValue, $current->$field));
+            }
 
         }
 

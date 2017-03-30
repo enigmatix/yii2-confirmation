@@ -170,8 +170,8 @@ class ConfirmationBehavior extends Behavior
      */
     protected function createConfirmationRequest(){
 
-        $model          = $this->owner;
-        $changedValues  = $this->getChangedValues();
+        $model         = $this->owner;
+        $changedValues = $this->getChangedValues();
 
         /* @var ConfirmationRequest $request */
         
@@ -271,20 +271,25 @@ class ConfirmationBehavior extends Behavior
         $email  = ArrayHelper::getValue($values,'email');
         $object = $model->constructObject();
 
-        if($email == null)
+        if($email == null){
             $email = ArrayHelper::getValue($values,'email_address');
+        }
 
-        if($email == null)
+        if($email == null){
             $email = ArrayHelper::getValue($object,'email');
+        }
 
-        if($email == null)
+        if($email == null){
             $email = ArrayHelper::getValue($object,'email_address');
+        }
 
-        if($email == null)
+        if($email == null){
             $email = ArrayHelper::getValue($object,$this->createdByAttribute.'.email');
+        }
 
-        if($email == null)
-            throw new InvalidCallException("Unable to locate email address via record, changed values, or user account");
+        if($email == null){
+            throw new InvalidCallException('Unable to locate email address via record, changed values, or user account');
+        }
 
         return $email;
     }
