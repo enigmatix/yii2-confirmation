@@ -1,8 +1,8 @@
+checks:
+    php: true
 tools:
-    tests:
-        override:
-            -
-                command: 'vendor/bin/codecept --coverage=coverage-clover'
-                coverage:
-                    file: 'tests/_output/coverage-clover'
-                    format: 'clover'
+    external_code_coverage: true
+    php_analyser: false
+filter:
+    excluded_paths:
+        - migration/*

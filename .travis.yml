@@ -18,9 +18,10 @@ cache:
 install:
   - travis_retry composer self-update && composer --version
   - composer global require "fxp/composer-asset-plugin:^1.2.0"
-  - rm composer.lock
   - composer install
 before_script:
   - mysql -e 'CREATE DATABASE confirmationtest;'
 script:
-  - vendor/bin/codecept run --coverage=coverage-clover
+  - vendor/bin/codecept run --coverage-xml=coverage-clover
+  - wget https://scrutinizer-ci.com/ocular.phar
+  - php ocular.phar code-coverage:upload --access-token="$CITOKEN" --format=php-clover coverage-clover
