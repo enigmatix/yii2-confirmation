@@ -1,8 +1,8 @@
-build:
+tools:
     tests:
         override:
             -
-                command: 'vendor/bin/phpunit --coverage-clover coverage'
+                command: 'vendor/bin/codecept --coverage=coverage-clover'
                 coverage:
-                    file: 'coverage'
+                    file: 'tests/_output/coverage-clover'
                     format: 'clover'

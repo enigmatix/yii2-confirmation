@@ -23,4 +23,4 @@ install:
 before_script:
   - mysql -e 'CREATE DATABASE confirmationtest;'
 script:
-  - vendor/bin/codecept run
+  - vendor/bin/codecept run --coverage=coverage-clover
