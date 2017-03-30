@@ -51,7 +51,7 @@ class ConfirmationRequest extends \yii\db\ActiveRecord
             [['object_id'], 'integer'],
             [['object', 'values'], 'string'],
             [['model', 'release_token'], 'string', 'max' => 255],
-            [['release_token'], 'default',  'value' => function ($model, $attribute){ return $this->generateReleaseToken();}],
+            [['release_token'], 'default', 'value' => function($model, $attribute) { return $this->generateReleaseToken(); }],
             [['created_by'], 'exist', 'skipOnError' => true, 'targetClass' => $this->getUserClassName(), 'targetAttribute' => ['created_by' => 'id']],
             [['updated_by'], 'exist', 'skipOnError' => true, 'targetClass' => $this->getUserClassName(), 'targetAttribute' => ['updated_by' => 'id']],
         ];
@@ -97,8 +97,8 @@ class ConfirmationRequest extends \yii\db\ActiveRecord
             ]);
     }
 
-    public function getViewLink(){
-        return Url::to(['@web/confirmation-requests', 'release_token' => $this->release_token],true);
+    public function getViewLink() {
+        return Url::to(['@web/confirmation-requests', 'release_token' => $this->release_token], true);
     }
 
     /**
@@ -129,20 +129,20 @@ class ConfirmationRequest extends \yii\db\ActiveRecord
     /**
      * @return string ActiveRecord user class, as per application implementation
      */
-    protected function getUserClassName(){
+    protected function getUserClassName() {
         return Yii::$app->user->identityClass;
     }
 
-    public function release(){
+    public function release() {
 
         $model          = $this->constructObject();
         $changedValues  = $model->getChangedValues();
         $current        = clone $model;
         $current->refresh();
 
-        foreach ($changedValues as $field => $value){
+        foreach ($changedValues as $field => $value) {
             $oldValue = $model->oldAttributes[$field];
-            if($current->$field !== $oldValue && $current->$field !== $value){
+            if ($current->$field !== $oldValue && $current->$field !== $value) {
                 throw new ErrorException(
                     sprintf('Unable to release change, protected field %s has been updated since this request.'
                     . ' Expected to find %s or %s, found %s', $field, $value, $oldValue, $current->$field));
@@ -159,7 +159,7 @@ class ConfirmationRequest extends \yii\db\ActiveRecord
     /**
      * @return \enigmatix\core\Model
      */
-    public function constructObject(){
+    public function constructObject() {
         return unserialize($this->object);
     }
 

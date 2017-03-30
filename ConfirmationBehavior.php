@@ -90,7 +90,7 @@ class ConfirmationBehavior extends Behavior
      * @param $event Event;
      */
 
-    public function beforeSave($event){
+    public function beforeSave($event) {
         $this->protectAttributes();
     }
 
@@ -106,10 +106,11 @@ class ConfirmationBehavior extends Behavior
 
         foreach ($changedValues as $attribute => $value) {
 
-            if ($this->skipOnNull && $value === null || $attribute == $this->timestampAttribute)
-                continue;
+            if ($this->skipOnNull && $value === null || $attribute == $this->timestampAttribute) {
+                            continue;
+            }
 
-            if(!$this->isAuthorised($user, $attribute, $value)){
+            if (!$this->isAuthorised($user, $attribute, $value)) {
                 $this->createConfirmationRequest();
                 $this->resetAttribute($attribute);
             }
@@ -124,17 +125,17 @@ class ConfirmationBehavior extends Behavior
      *
      * @return bool
      */
-    protected function isAuthorised($user, $attribute, $value){
+    protected function isAuthorised($user, $attribute, $value) {
 
         //Check for pre-defined administration roles
         if ($this->userIsAuthorised($user))
             return true;
 
         //Check for valid release token , eg that the token exists and is for the same record as this
-        if($this->releaseToken != null){
-            $confirmation =  ConfirmationRequest::findOne(['release_token' => $this->releaseToken]);
+        if ($this->releaseToken != null) {
+            $confirmation = ConfirmationRequest::findOne(['release_token' => $this->releaseToken]);
 
-            if($confirmation == null)
+            if ($confirmation == null)
                 return false;
 
             $model = $confirmation->constructObject();
@@ -145,7 +146,7 @@ class ConfirmationBehavior extends Behavior
 
         //Check to see if any protected attributes have been altered
         foreach ($this->protectedAttributes as $attribute)
-            if($this->hasChanged($attribute))
+            if ($this->hasChanged($attribute))
                 return false;
 
         return true;
@@ -157,9 +158,9 @@ class ConfirmationBehavior extends Behavior
      *
      * @return bool
      */
-    protected function userIsAuthorised($user){
+    protected function userIsAuthorised($user) {
         foreach ($this->allow as $role)
-            if($user->can($role))
+            if ($user->can($role))
                 return true;
 
         return false;
@@ -168,7 +169,7 @@ class ConfirmationBehavior extends Behavior
     /**
      * Business logic handling the creation of the Confirmation Request, and sending the second factor message.
      */
-    protected function createConfirmationRequest(){
+    protected function createConfirmationRequest() {
 
         $model         = $this->owner;
         $changedValues = $this->getChangedValues();
@@ -193,7 +194,7 @@ class ConfirmationBehavior extends Behavior
      *
      * @return bool
      */
-    protected function hasChanged($attribute){
+    protected function hasChanged($attribute) {
         return $this->owner->oldAttributes[$attribute] != $this->owner->{$attribute};
     }
 
@@ -201,11 +202,11 @@ class ConfirmationBehavior extends Behavior
      * Fetches all values which have changed, expect for the timestamp attribute.
      * @return array
      */
-    public function getChangedValues(){
+    public function getChangedValues() {
         $changedAttributes = [];
 
         foreach ($this->owner->attributes() as $attribute)
-            if($this->hasChanged($attribute))
+            if ($this->hasChanged($attribute))
                 $changedAttributes[$attribute] = $this->owner->$attribute;
 
         unset($changedAttributes[$this->timestampAttribute]);
@@ -217,15 +218,15 @@ class ConfirmationBehavior extends Behavior
      * Sets an attribute back to it's original value when it was fetched.
      * @param string $attribute
      */
-    protected function resetAttribute($attribute){
+    protected function resetAttribute($attribute) {
         $this->owner->$attribute = $this->owner->oldAttributes[$attribute];
     }
 
     /**
      * Adds a flash message to the interface stating the change has been held over pending confirmation.
-     * @param $model
+     * @param ConfirmationRequest $model
      */
-    public function createFeedbackMessage($model){
+    public function createFeedbackMessage($model) {
         $this->displayMessage($model);
     }
 
@@ -233,7 +234,7 @@ class ConfirmationBehavior extends Behavior
      * Business logic around displaying an appropriate feedback message to the user regbarding the change.
      * @param $model
      */
-    protected function displayMessage($model){
+    protected function displayMessage($model) {
         Yii::$app->session->setFlash('warning', 'Your update is pending confirmation.  Please check your email for a confirmation link.');
     }
 
@@ -241,8 +242,8 @@ class ConfirmationBehavior extends Behavior
      * Business logic around transmitting the second factor message.
      * @param ConfirmationRequest $model
      */
-    public function sendSecondFactorMessage($model){
-        switch ($this->secondFactor){
+    public function sendSecondFactorMessage($model) {
+        switch ($this->secondFactor) {
             case 'email':
                 Yii::$app->mailer
                     ->compose($this->confirmationViewPath, ['model' => $model])
@@ -265,29 +266,29 @@ class ConfirmationBehavior extends Behavior
      * @return string
      * @throws InvalidCallException
      */
-    protected function getEmail($model){
+    protected function getEmail($model) {
 
         $values = unserialize($model->values);
-        $email  = ArrayHelper::getValue($values,'email');
+        $email  = ArrayHelper::getValue($values, 'email');
         $object = $model->constructObject();
 
-        if($email == null){
-            $email = ArrayHelper::getValue($values,'email_address');
+        if ($email == null) {
+            $email = ArrayHelper::getValue($values, 'email_address');
         }
 
-        if($email == null){
-            $email = ArrayHelper::getValue($object,'email');
+        if ($email == null) {
+            $email = ArrayHelper::getValue($object, 'email');
         }
 
-        if($email == null){
-            $email = ArrayHelper::getValue($object,'email_address');
+        if ($email == null) {
+            $email = ArrayHelper::getValue($object, 'email_address');
         }
 
-        if($email == null){
-            $email = ArrayHelper::getValue($object,$this->createdByAttribute.'.email');
+        if ($email == null) {
+            $email = ArrayHelper::getValue($object, $this->createdByAttribute . '.email');
         }
 
-        if($email == null){
+        if ($email == null) {
             throw new InvalidCallException('Unable to locate email address via record, changed values, or user account');
         }
 
