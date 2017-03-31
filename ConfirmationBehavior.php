@@ -128,15 +128,17 @@ class ConfirmationBehavior extends Behavior
     protected function isAuthorised($user, $attribute, $value) {
 
         //Check for pre-defined administration roles
-        if ($this->userIsAuthorised($user))
-            return true;
+        if ($this->userIsAuthorised($user)) {
+                    return true;
+        }
 
         //Check for valid release token , eg that the token exists and is for the same record as this
         if ($this->releaseToken != null) {
             $confirmation = ConfirmationRequest::findOne(['release_token' => $this->releaseToken]);
 
-            if ($confirmation == null)
-                return false;
+            if ($confirmation == null) {
+                            return false;
+            }
 
             $model = $confirmation->constructObject();
 
@@ -145,9 +147,10 @@ class ConfirmationBehavior extends Behavior
         }
 
         //Check to see if any protected attributes have been altered
-        foreach ($this->protectedAttributes as $attribute)
-            if ($this->hasChanged($attribute))
+        foreach ($this->protectedAttributes as $attribute) {
+                    if ($this->hasChanged($attribute))
                 return false;
+        }
 
         return true;
     }
@@ -159,9 +162,10 @@ class ConfirmationBehavior extends Behavior
      * @return bool
      */
     protected function userIsAuthorised($user) {
-        foreach ($this->allow as $role)
-            if ($user->can($role))
+        foreach ($this->allow as $role) {
+                    if ($user->can($role))
                 return true;
+        }
 
         return false;
     }
@@ -205,9 +209,10 @@ class ConfirmationBehavior extends Behavior
     public function getChangedValues() {
         $changedAttributes = [];
 
-        foreach ($this->owner->attributes() as $attribute)
-            if ($this->hasChanged($attribute))
+        foreach ($this->owner->attributes() as $attribute) {
+                    if ($this->hasChanged($attribute))
                 $changedAttributes[$attribute] = $this->owner->$attribute;
+        }
 
         unset($changedAttributes[$this->timestampAttribute]);
 
@@ -232,7 +237,7 @@ class ConfirmationBehavior extends Behavior
 
     /**
      * Business logic around displaying an appropriate feedback message to the user regbarding the change.
-     * @param $model
+     * @param ConfirmationRequest $model
      */
     protected function displayMessage($model) {
         Yii::$app->session->setFlash('warning', 'Your update is pending confirmation.  Please check your email for a confirmation link.');
