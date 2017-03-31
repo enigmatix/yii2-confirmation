@@ -24,4 +24,4 @@ before_script:
 script:
   - vendor/bin/codecept run --coverage-xml=coverage-clover
   - wget https://scrutinizer-ci.com/ocular.phar
-  - php ocular.phar code-coverage:upload --access-token="$CITOKEN" --format=php-clover coverage-clover
+  - php ocular.phar code-coverage:upload --access-token="$CITOKEN" --format=php-clover tests/_output/coverage-clover
