@@ -6,7 +6,7 @@ use yii\helpers\Html;
 $link = $model->getViewLink();
 ?>
 
-<p>Your details have been changed in <?=Yii::$app->name ?>. specifically:</p>
+<p>Your details have been changed in <?=Yii::$app->name ?>, specifically:</p>
 
   <?=  Html::ul(unserialize($model->values), ['item' => function($item, $index) {return Html::tag('li', $index . ' : ' . $item); }]) ?>
 
