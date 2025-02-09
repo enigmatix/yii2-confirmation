@@ -252,6 +252,7 @@ class ConfirmationBehavior extends Behavior
             case 'email':
                 Yii::$app->mailer
                     ->compose($this->confirmationViewPath, ['model' => $model])
+                    ->setSubject('Confirm Your Details for '. Yii::$app->name)
                     ->setTo([$this->getEmail($model)])
                     ->send();
                 $this->createFeedbackMessage($model);
